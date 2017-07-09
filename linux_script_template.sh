@@ -67,6 +67,7 @@ install() {
 }
 
 config() {
+    echo '';
 }
 
 start() {
