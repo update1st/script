@@ -1,7 +1,7 @@
 #!/bin/bash  
 ### BEGIN INIT INFO  
 #  
-# Provides:  arai2c  .....
+# Provides:  arai2c  ......
 # Required-Start:   $local_fs  $remote_fs  
 # Required-Stop:    $local_fs  $remote_fs  
 # Default-Start:    2 3 4 5  
