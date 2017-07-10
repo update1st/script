@@ -28,7 +28,7 @@ PID=`ps -ef | grep $PROG_PATH/$PROG| grep -v grep|awk '{print $2}'`;
 
 
 if [ "$(id -u)" != "0" ]; then  
-    echo -e "[\033[31m ERRO\033[0m ] This script must be run as root!" 1>&2;
+    echo -e "[\033[31m ERRO \033[0m] This script must be run as root!" 1>&2;
     exit 1  
 fi  
 
@@ -127,12 +127,12 @@ start() {
     echo  "Start $PROG."
     if [ "$PID" != "" ]; then 
        echo -e "[\033[31m ERRO \033[0m] $PROG is running!";
-       echo -e "[\033[31m PID:\033[0m ] $PID";
+       echo -e "[\033[31m PID: \033[0m] $PID";
        exit 1
     else 
        $PROG_PATH/$PROG $PROG_ARGS >/dev/null 2>&1 &
        echo -e "[\033[32m INFO \033[0m] Starting 3proxy......";
-       #echo -e "[\033[32m PID:\033[0m ] $PID";
+       #echo -e "[\033[32m PID: \033[0m] $PID";
        #echo "$PROG_PATH/$PROG $PROG_ARGS"
     fi
 }
@@ -141,11 +141,11 @@ stop() {
     echo  "Stop $PROG.";
     echo -e "[\033[32m INFO \033[0m] Check $PROG \033[31m PID \033[0m information......";
     if [ "$PID" != "" ]; then
-       echo -e "[\033[32m PID:\033[0m ] $PID";
+       echo -e "[\033[32m PID: \033[0m] $PID";
        kill $PID;
-       echo -e "[\033[32m INFO\033[0m ] $PROG stopped";
+       echo -e "[\033[32m INFO \033[0m] $PROG stopped";
     else 
-       echo -e "[\033[31m ERRO\033[0m ] $PROG isn't running!";
+       echo -e "[\033[31m ERRO \033[0m] $PROG isn't running!";
        #exit 1
     fi
 }
@@ -179,10 +179,10 @@ case "$1" in
        #PID=`ps -ef | grep $PROG| grep -v grep|awk '{print $2}'`
        if [ "$PID" != "" ]; then 
           echo -e "[\033[32m INFO \033[0m] $PROG is running!";
-          echo -e "[\033[32m PID:\033[0m ] $PID";
+          echo -e "[\033[32m PID: \033[0m] $PID";
        else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
           echo -e "[\033[31m INFO \033[0m] $PROG is stopped!"; else
-          echo -e "[\033[31m INFO\033[0m ] Please install $PROG first! Run 'sudo sh $0 install'. ";fi
+          echo -e "[\033[31m INFO \033[0m] Please install $PROG first! Run 'sudo sh $0 install'. ";fi
        fi       
           exit 1
        ;;
