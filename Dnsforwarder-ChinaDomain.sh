@@ -13,10 +13,11 @@
 
 
 #------------------------------------------------------------
+# REDAME: The script is only applicable to Chinese users for gfw dns pollution
 # china-domain-list: https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt
-# 3 million Chinese domain name records through aliyun dns(223.5.5.5 223.6.6.6).
-# The default DNS  115.159.157.26 115.159.158.38
-# u can change default DNS.
+# 3 million Chinese domain name records through aliyun dns server(223.5.5.5 223.6.6.6).
+# The default DNS is  universities dns server ( 115.159.157.26 115.159.158.38)
+# If you do not want to use it,You can change the default DNS you want.
 # config file directory /etc/dnsforwarder/default.en.config
 #------------------------------------------------------------
 
