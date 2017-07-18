@@ -62,7 +62,7 @@ dnsforwarder_conf(){
     wget https://raw.githubusercontent.com/holmium/dnsforwarder/6/default.en.config;
     wget https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt;
     sed -i 's/114\.114\.114\.114/115\.159\.157\.26/g' default.en.config;
-    sed -ri 's/^UDPGroup 1\.2\.4\.8/115\.159\.158\.38/g';
+    sed -ri 's/^UDPGroup 1\.2\.4\.8/115\.159\.158\.38/g' default.en.config;
     sed -ri 's/^GroupFile/GroupFile \/etc\/dnsforwarder\/china-domain-update.txt/g' default.en.config;
 
 }
