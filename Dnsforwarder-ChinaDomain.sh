@@ -1,7 +1,7 @@
 #!/bin/bash  
 ### BEGIN INIT INFO  
 #  
-# Provides:  dns dnsforwarder (for china domain list)
+# Provides:  dns dnsforwarder (3W chinese domain list)
 # Required-Start:   $local_fs  $remote_fs
 # Required-Stop:    $local_fs  $remote_fs
 # Default-Start:    2 3 4 5
