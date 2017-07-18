@@ -12,6 +12,14 @@
 ### END INIT INFO
 
 
+#------------------------------------------------------------
+# china-domain-list: https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt
+# 3 million Chinese domain name records through aliyun dns(223.5.5.5 223.6.6.6).
+# The default DNS  1.2.4.8:53  115.159.157.26
+# u can change default DNS.
+# config directory /etc/dnsforwarder/default.en.config
+#------------------------------------------------------------
+
 # User Info
 OSKEY="centos fedora debian ubuntu red-hat";
 PACKAGE="curl wget git make automake aria2 unzip gcc";
