@@ -33,7 +33,6 @@ IP=$(ip a | grep inet | sed -n '3p' |awk '{print $2}' |awk -F '/' '{print $1}');
 BIT=$(uname -m);
 
 
-
 PROG_CONF_DIR="/etc/dnsforwarder";
 
 # Program dnsforwarder.
@@ -85,6 +84,10 @@ remove_dnsforwarder() {
     stop_dnsforwarder;
     remove;
 }
+
+
+
+
 
 
 # CheckOS .
@@ -142,6 +145,12 @@ Create_dir() {
       echo -e "[\033[31m ERRO \033[0m] $PROG_CONF_DIR already exists!";
     fi
 }
+
+
+
+
+
+
 
 
 install() {
