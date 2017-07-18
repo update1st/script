@@ -15,7 +15,7 @@
 #------------------------------------------------------------
 # china-domain-list: https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt
 # 3 million Chinese domain name records through aliyun dns(223.5.5.5 223.6.6.6).
-# The default DNS  1.2.4.8:53  115.159.157.26
+# The default DNS  115.159.157.26 115.159.158.38
 # u can change default DNS.
 # config file directory /etc/dnsforwarder/default.en.config
 #------------------------------------------------------------
@@ -62,6 +62,7 @@ dnsforwarder_conf(){
     wget https://raw.githubusercontent.com/holmium/dnsforwarder/6/default.en.config;
     wget https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt;
     sed -i 's/114\.114\.114\.114/115\.159\.157\.26/g' default.en.config;
+    sed -ri 's/^UDPGroup 1\.2\.4\.8/115\.159\.158\.38/g';
     sed -ri 's/^GroupFile/GroupFile \/etc\/dnsforwarder\/china-domain-update.txt/g' default.en.config;
 
 }
