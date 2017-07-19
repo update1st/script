@@ -1,6 +1,6 @@
-#!/bin/bash  
-### BEGIN INIT INFO  
-#  
+#!/bin/bash
+### BEGIN INIT INFO
+#
 # Provides:  dns dnsforwarder (30000+ chinese domain list)
 # Required-Start:   $local_fs  $remote_fs
 # Required-Stop:    $local_fs  $remote_fs
@@ -18,6 +18,7 @@
 # 30000+ Chinese domain name records through aliyun dns server(223.5.5.5 223.6.6.6).
 # The default DNS is  universities dns server ( 115.159.157.26 115.159.158.38)
 # If you do not want to use it,You can change the default DNS you want.
+# public-dns: https://public-dns.info//
 # config file directory /etc/dnsforwarder/default.en.config
 #------------------------------------------------------------
 
