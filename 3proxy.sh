@@ -1,15 +1,15 @@
-#!/bin/bash  
-### BEGIN INIT INFO  
-#  
-# Provides:  HTTP PROXY  
-# Required-Start:   $local_fs  $remote_fs  
-# Required-Stop:    $local_fs  $remote_fs  
-# Default-Start:    2 3 4 5  
-# Default-Stop:     0 1 6  
-# Short-Description:    initscript  
-# Description:  This file should be used to construct scripts to be placed in /etc/init.d.  
-#  
-### END INIT INFO  
+#!/bin/bash
+### BEGIN INIT INFO
+#
+# Provides:  HTTP PROXY
+# Required-Start:   $local_fs  $remote_fs
+# Required-Stop:    $local_fs  $remote_fs
+# Default-Start:    2 3 4 5
+# Default-Stop:     0 1 6
+# Short-Description:    initscript
+# Description:  This file should be used to construct scripts to be placed in /etc/init.d.
+#
+### END INIT INFO
 
 PACKAGE="curl wget git make aria2 unzip gcc";
 
@@ -18,19 +18,19 @@ DIR=$(cd "$(dirname "$0")"; pwd);
 IP=$(ip a | grep inet | sed -n '3p' |awk '{print $2}' |awk -F '/' '{print $1}');
 
 PROG="3proxy";
-PROG_PATH="/usr/local/bin"; 
+PROG_PATH="/usr/local/bin";
 PROG_ARGS="$DIR/proxy3.cfg";
-PID_PATH="/var/run/";  
+PID_PATH="/var/run/";
 LOG_DIR="$DIR/log";
 
 
-PID=`ps -ef | grep $PROG_PATH/$PROG| grep -v grep|awk '{print $2}'`; 
+PID=`ps -ef | grep $PROG_PATH/$PROG| grep -v grep|awk '{print $2}'`;
 
 
-if [ "$(id -u)" != "0" ]; then  
+if [ "$(id -u)" != "0" ]; then
     echo -e "[\033[31m ERRO \033[0m] This script must be run as root!" 1>&2;
-    exit 1  
-fi  
+    exit 1
+fi
 
 
 
@@ -66,7 +66,7 @@ install() {
     yum install $PACKAGE -y;
     else if [ ${release} == "debian" ]; then
         apt-get update -y;
-        apt-get install $PACKAGE -y; 
+        apt-get install $PACKAGE -y;
         else if [ ${release} == "ubuntu" ]; then
             apt-get update -y;
             apt-get install $PACKAGE -y;
@@ -76,13 +76,13 @@ install() {
                 else echo "Unknown operating system";
                 fi
             fi
-        fi 
+        fi
     fi
 
     if [ ! -d "$LOG_DIR" ]; then
       echo -e "[\033[32m INFO \033[0m] Create $LOG_DIR 3proxy_log directory";
       mkdir $LOG_DIR && chmod -R 777 $LOG_DIR;
-    else  
+    else
       echo -e "[\033[31m ERRO \033[0m] $LOG_DIR already exists!";
     fi
     echo "Install $PROG.";
@@ -102,7 +102,7 @@ install() {
       internal 0.0.0.0
 
       auth strong
-      allow nn 
+      allow nn
       parent 1000 socks5 127.0.0.1 11111
       #parent 1000 http 127.0.0.1 11111
       proxy -a -p22222
@@ -125,11 +125,11 @@ remove() {
 
 start() {
     echo  "Start $PROG."
-    if [ "$PID" != "" ]; then 
+    if [ "$PID" != "" ]; then
        echo -e "[\033[31m ERRO \033[0m] $PROG is running!";
        echo -e "[\033[31m PID: \033[0m] $PID";
        exit 1
-    else 
+    else
        $PROG_PATH/$PROG $PROG_ARGS >/dev/null 2>&1 &
        echo -e "[\033[32m INFO \033[0m] Starting 3proxy......";
        #echo -e "[\033[32m PID: \033[0m] $PID";
@@ -144,47 +144,46 @@ stop() {
        echo -e "[\033[32m PID: \033[0m] $PID";
        kill $PID;
        echo -e "[\033[32m INFO \033[0m] $PROG stopped";
-    else 
+    else
        echo -e "[\033[31m ERRO \033[0m] $PROG isn't running!";
        #exit 1
     fi
 }
 
 
-case "$1" in  
-    start)  
+case "$1" in
+    start)
        start
        exit 0
        ;;
-    stop)  
+    stop)
        stop
        exit 0
        ;;
-    reload|restart|force-reload)  
+    reload|restart|force-reload)
        stop
        start
        exit 0
        ;;
-    install)  
+    install)
        install
        exit 0
        ;;
-    remove)  
+    remove)
        remove
        exit 0
        ;;
-    **)  
+    **)
        echo -e "\033[32m  Usage: \033[0m $0 {\033[32m install|remove|start|stop|reload \033[0m}" 1>&2;
        echo -e "[\033[32m INFO \033[0m] Check $PROG  information......";
        #PID=`ps -ef | grep $PROG| grep -v grep|awk '{print $2}'`
-       if [ "$PID" != "" ]; then 
+       if [ "$PID" != "" ]; then
           echo -e "[\033[32m INFO \033[0m] $PROG is running!";
           echo -e "[\033[32m PID: \033[0m] $PID";
        else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
           echo -e "[\033[31m INFO \033[0m] $PROG is stopped!"; else
           echo -e "[\033[31m INFO \033[0m] Please install $PROG first! Run 'sudo sh $0 install'. ";fi
-       fi       
+       fi
           exit 1
        ;;
 esac
-
