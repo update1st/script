@@ -14,7 +14,7 @@
 
 # OS PACKAGE Info
 OSKEY="centos fedora debian ubuntu redhat";
-PACKAGE="curl wget git make aotomake unzip gcc";
+PACKAGE="curl wget git make automake autoconf unzip gcc privoxy proxychains-ng";
 RE_PACKAGE="";
 
 # System Info
