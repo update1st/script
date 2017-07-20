@@ -201,6 +201,7 @@ Status_Program(){
   # p3;
   # status;
   # echo "----------------------------------------"
+
 }
 
 
@@ -252,7 +253,7 @@ status() {
     if [ "$PID" != "" ]; then
        echo -e "$ERRO $PROG is Running!";
        echo -e "$rPID $PID";
-       exit 1
+       #exit 1
     else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
        echo -e "$INFO $PROG is stopped!"; else
        echo -e "$INFO Please install $PROG first! ";fi
