@@ -31,14 +31,55 @@ ERRO="[\033[31m ERRO \033[0m]";
 rPID="[\033[31m PID: \033[0m]"; #red PID
 gPID="[\033[31m PID: \033[0m]"; #green PID
 
-# Progarm Info
-Program_info() {
+
+# --------------------------------------
+p1(){
   # BASE INFO
   PROG="";
   PROG_PATH="";
   PROG_ARGS_PREFIX="";
   PROG_ARGS="";
   PROG_PID_KEY="";
+
+  Program_info;
+}
+p1_install(){
+  echo "";
+}
+
+# --------------------------------------
+# p2(){
+#   # BASE INFO
+#   PROG="";
+#   PROG_PATH="";
+#   PROG_ARGS_PREFIX="";
+#   PROG_ARGS="";
+#   PROG_PID_KEY="";
+#
+#   Program_info;
+# }
+# p2_install(){
+#   echo "";
+# }
+#
+# # --------------------------------------
+# p3(){
+#   # BASE INFO
+#   PROG="";
+#   PROG_PATH="";
+#   PROG_ARGS_PREFIX="";
+#   PROG_ARGS="";
+#   PROG_PID_KEY="";
+#
+#   Program_info;
+# }
+# p3_install(){
+#   echo "";
+# }
+
+# --------------------------------------
+# Progarm Info
+Program_info() {
 
   PROG_CONF_DIR=""; # $DIR
   PROG_LOG_DIR=""; # $DIR/log
@@ -48,7 +89,7 @@ Program_info() {
   PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
 
   # PORG log.conf Directory
-  xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}')/$PROG;
+  xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}');
   pDIR=$DIR/$PROG;
   if [ "$xDIR" = "" ]; then
       PROG_CONF_DIR=$pDIR;
@@ -56,9 +97,9 @@ Program_info() {
       PROG_LOG_DIR=$pDIR/log;
 
   else
-      PROG_CONF_DIR=${xDIR%/*};
-      #PROG_CONF_DIR=${xDIR%/*}/conf;
-      PROG_LOG_DIR=${xDIR%/*}/log;
+      PROG_CONF_DIR=${xDIR%/*}/$PROG;
+      #PROG_CONF_DIR=${xDIR%/*}/$PROG/conf;
+      PROG_LOG_DIR=${xDIR%/*}/$PROG/log;
 
   fi
 
@@ -69,49 +110,6 @@ Program_info() {
   # Create directory for Program(log/config)
   PROG_DIR= "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
 }
-
-# How to install the program and configure?
-Insall_Program(){
-  install;
-  Program_info;
-  Create_Log_Conf_Dir;
-  # how to install program?
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-}
-
-Remove_Program(){
-  Stop_Program;
-  remove;
-  Delete_log_conf_Dir;
-  echo -e "$INFO RUNING END";
-}
-
-Start_Program(){
-  Program_info;
-  start;
-}
-
-Stop_Program(){
-  Program_info;
-  stop;
-}
-Status_Program(){
-  Program_info;
-  status;
-}
-
-
-
-
-
-
 
 
 # Create Progarm log/config directory
@@ -138,6 +136,80 @@ Delete_log_conf_Dir(){
 }
 
 
+
+# How to install the program and configure?
+Insall_Program(){
+  install;
+
+  # how to install program?
+  p1;
+  Create_Log_Conf_Dir;
+  p1_install;
+
+  # p2;
+  # Create_Log_Conf_Dir;
+  # p2_install;
+  #
+  # p3;
+  # Create_Log_Conf_Dir;
+  # p3_install;
+}
+
+Remove_Program(){
+  p1;
+  stop;
+  remove;
+  # echo "----------------------------------------"
+  # p2;
+  # stop;
+  # remove;
+  # echo "----------------------------------------"
+  # p3;
+  # stop;
+  # remove;
+  # echo "----------------------------------------"
+  echo -e "$INFO RUNING END";
+}
+
+Start_Program(){
+  p1;
+  start;
+  # echo "----------------------------------------"
+  # p2;
+  # start;
+  # echo "----------------------------------------"
+  # p3;
+  # start;
+  # echo "----------------------------------------"
+}
+
+Stop_Program(){
+  p1;
+  stop;
+  # echo "----------------------------------------"
+  # p2;
+  # stop;
+  # echo "----------------------------------------"
+  # p3;
+  # stop;
+  # echo "----------------------------------------"
+}
+Status_Program(){
+  p1;
+  status;
+  # echo "----------------------------------------"
+  # p2;
+  # status;
+  # echo "----------------------------------------"
+  # p3;
+  # status;
+  # echo "----------------------------------------"
+}
+
+
+
+
+
 install() {
     CheckOS_Install_Package;
 }
@@ -149,6 +221,7 @@ remove() {
         echo -e "[\033[31m INFO:\033[0m ] Del config file \033[31m $PROG_ARGS \033[0m ";
         rm -rf $PROG_ARGS;
     fi
+    Delete_log_conf_Dir;
 }
 
 start() {
@@ -156,11 +229,11 @@ start() {
     if [ "$PID" != "" ]; then
        echo -e "$ERRO $PROG is Running!";
        echo -e "$ERRO $PID";
-       exit 1
+       #exit 1
     else
        $PROG_PATH/$PROG $PROG_ARGS_PREFIX $PROG_ARGS > $PROG_LOG 2>&1 &
        echo -e "$INFO Starting $PROG......";
-       #PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
+       PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
        echo -e "$INFO $PID";
     fi
 }
@@ -185,7 +258,7 @@ status() {
        exit 1
     else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
        echo -e "$INFO $PROG is stopped!"; else
-       echo -e "$INFO Please install $PROG first! Run as root \033[31m 'sh $0 install'\033[0m. ";fi
+       echo -e "$INFO Please install $PROG first! ";fi
     fi
 }
 
