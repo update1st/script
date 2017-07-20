@@ -187,7 +187,7 @@ stop() {
 }
 
 status() {
-    echo -e "\033[31m Check $PROG Run information\033[0m";
+    echo -e "\033[32m Check the $PROG running status..\033[0m";
     if [ "$PID" != "" ]; then
        echo -e "[\033[31m ERRO \033[0m] $PROG is Running!";
        echo -e "[\033[31m PID:\033[0m ] $PID";
