@@ -26,7 +26,7 @@ BIT=$(uname -m);
 INFO="[\033[32m INFO \033[0m]";
 ERRO="[\033[31m ERRO \033[0m]";
 rPID="[\033[31m PID: \033[0m]"; #red PID
-gPID="[\033[31m PID: \033[0m]"; #green PID
+gPID="[\033[32m PID: \033[0m]"; #green PID
 
 
 # --------------------------------------
