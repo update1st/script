@@ -13,7 +13,7 @@
 
 
 # OS PACKAGE Info
-OSKEY="centos fedora debian ubuntu red-hat";
+OSKEY="centos fedora debian ubuntu redhat";
 PACKAGE="curl wget git make aotomake unzip gcc";
 RE_PACKAGE="";
 
@@ -277,10 +277,12 @@ CheckOS() {
         if  ls /etc/ |grep -E '*_version|*-release' | grep -q -E -i "$x" ; then
 
             if [ "$x" = "centos" ]; then  INSTALL_BIN="yum";
-            elif  [ "$x" = "fedora" ]; then  INSTALL_BIN="yum";
+          elif  [ "$x" = "fedora" ]; then  INSTALL_BIN="dnf";
+            elif  [ "$x" = "redhat" ]; then  INSTALL_BIN="yum";
             elif  [ "$x" = "debian" ]; then  INSTALL_BIN="apt-get";
             elif  [ "$x" = "ubuntu" ]; then  INSTALL_BIN="apt-get";
             elif  [ "$x" = "kali" ]; then  INSTALL_BIN="apt-get";
+
             fi
 
             echo -e "Operating system: \033[31m $x \033[0m ";
