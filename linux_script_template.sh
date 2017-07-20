@@ -83,7 +83,7 @@ Program_info() {
 
 
   # GET Progarm PID
-  PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
+  PID=`ps -ef | grep "$PROG_PID_KEY"| grep -v grep|awk '{print $2}'`;
 
   # PORG log.conf Directory
   xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}');
