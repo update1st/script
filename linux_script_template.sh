@@ -125,7 +125,8 @@ Create_Log_Conf_Dir(){
 Delete_log_conf_Dir(){
   for x in $PROG_DIR; do
     if [ ! -d "$x" ]; then
-      exit 1;
+      echo "";
+      #exit 1;
     else
       rm -rf $x;
     fi
