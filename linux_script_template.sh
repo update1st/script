@@ -277,7 +277,7 @@ CheckOS() {
         if  ls /etc/ |grep -E '*_version|*-release' | grep -q -E -i "$x" ; then
 
             if [ "$x" = "centos" ]; then  INSTALL_BIN="yum";
-          elif  [ "$x" = "fedora" ]; then  INSTALL_BIN="dnf";
+            elif  [ "$x" = "fedora" ]; then  INSTALL_BIN="dnf";
             elif  [ "$x" = "redhat" ]; then  INSTALL_BIN="yum";
             elif  [ "$x" = "debian" ]; then  INSTALL_BIN="apt-get";
             elif  [ "$x" = "ubuntu" ]; then  INSTALL_BIN="apt-get";
