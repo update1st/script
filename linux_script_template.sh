@@ -15,7 +15,7 @@
 # OS PACKAGE Info
 OSKEY="centos fedora debian ubuntu redhat";
 PACKAGE="curl wget git make automake autoconf unzip gcc privoxy proxychains-ng";
-RE_PACKAGE="";
+RE_PACKAGE="PACKAGE";
 
 # System Info
 DATE=$(date +%Y%m%d);
