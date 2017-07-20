@@ -11,9 +11,6 @@
 #
 ### END INIT INFO
 
-#awk -F '[_ -]' '{for(i=1;i<=NF;++i) printf $i "\n";printf "\n"}'
-#if  ls /etc/ |grep -E '*_version|*-release' | grep -q -E -i "debian" ; then echo yes;else echo no; fi
-
 
 # OS PACKAGE Info
 OSKEY="centos fedora debian ubuntu red-hat";
