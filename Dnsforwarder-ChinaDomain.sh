@@ -194,7 +194,7 @@ status() {
        #exit 1
     else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
        echo -e "[\033[31m INFO \033[0m] $PROG is stopped!"; else
-       echo -e "[\033[31m INFO\033[0m ] Please install $PROG first! Run as root \033[31m 'sh $0 install'\033[0m. ";fi
+       echo -e "[\033[31m INFO\033[0m ] Please install $PROG first! ";fi
     fi
 }
 
