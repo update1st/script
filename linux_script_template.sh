@@ -105,7 +105,7 @@ Program_info() {
   #PROG_LOG="/dev/null";
 
   # Create directory for Program(log/config)
-  PROG_DIR= "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+  PROG_DIR="$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
 }
 
 
