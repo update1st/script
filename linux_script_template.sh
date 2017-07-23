@@ -35,40 +35,55 @@ p1(){
   PROG="";
   PROG_PATH="";
   PROG_ARGS_PREFIX="";
-  PROG_ARGS="";
+
   PROG_PID_KEY="";
 
   Program_info;
+  p1_args;
+}
+p1_args(){
+  #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+  PROG_ARGS="";
 }
 p1_install(){
   echo "";
 }
 
-# --------------------------------------
+# # --------------------------------------
 # p2(){
 #   # BASE INFO
 #   PROG="";
 #   PROG_PATH="";
 #   PROG_ARGS_PREFIX="";
-#   PROG_ARGS="";
+#
 #   PROG_PID_KEY="";
 #
 #   Program_info;
+#   p2_args;
+# }
+# p2_args(){
+#   #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+#   PROG_ARGS="";
 # }
 # p2_install(){
 #   echo "";
 # }
-#
+
 # # --------------------------------------
 # p3(){
 #   # BASE INFO
 #   PROG="";
 #   PROG_PATH="";
 #   PROG_ARGS_PREFIX="";
-#   PROG_ARGS="";
+#
 #   PROG_PID_KEY="";
 #
 #   Program_info;
+#   p3_args;
+# }
+# p3_args(){
+#   #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+#   PROG_ARGS="";
 # }
 # p3_install(){
 #   echo "";
@@ -77,7 +92,7 @@ p1_install(){
 # --------------------------------------
 # Progarm Info
 Program_info() {
-
+  pDIR="";
   PROG_CONF_DIR=""; # $DIR
   PROG_LOG_DIR=""; # $DIR/log
 
@@ -113,7 +128,7 @@ Program_info() {
 Create_Log_Conf_Dir(){
   for x in $PROG_DIR; do
     if [ ! -d "$x" ]; then
-      echo -e "$INFO Create $x Prog_dir/Conf_dir/Log_dir directory";
+      echo -e "$INFO Create $x  directory";
       mkdir -p $x && chmod -R 755 $x;
     else
       echo -e "$ERRO $xDIR already exists!";
