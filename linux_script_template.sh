@@ -34,60 +34,23 @@ p1(){
   # BASE INFO
   PROG="";
   PROG_PATH="";
-  PROG_ARGS_PREFIX="";
-
-  PROG_PID_KEY="";
 
   Program_info;
   p1_args;
 }
 p1_args(){
-  #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+  # directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+  PROG_ARGS_PREFIX="";
   PROG_ARGS="";
+  PROG_PID_KEY="";
+
+  # GET Progarm PID
+  PID=`ps -ef | grep "$PROG_PID_KEY"| grep -v grep|awk '{print $2}'`;
 }
 p1_install(){
   echo "";
 }
 
-# # --------------------------------------
-# p2(){
-#   # BASE INFO
-#   PROG="";
-#   PROG_PATH="";
-#   PROG_ARGS_PREFIX="";
-#
-#   PROG_PID_KEY="";
-#
-#   Program_info;
-#   p2_args;
-# }
-# p2_args(){
-#   #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
-#   PROG_ARGS="";
-# }
-# p2_install(){
-#   echo "";
-# }
-
-# # --------------------------------------
-# p3(){
-#   # BASE INFO
-#   PROG="";
-#   PROG_PATH="";
-#   PROG_ARGS_PREFIX="";
-#
-#   PROG_PID_KEY="";
-#
-#   Program_info;
-#   p3_args;
-# }
-# p3_args(){
-#   #Create directory "$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
-#   PROG_ARGS="";
-# }
-# p3_install(){
-#   echo "";
-# }
 
 # --------------------------------------
 # Progarm Info
@@ -95,10 +58,6 @@ Program_info() {
   pDIR="";
   PROG_CONF_DIR=""; # $DIR
   PROG_LOG_DIR=""; # $DIR/log
-
-
-  # GET Progarm PID
-  PID=`ps -ef | grep "$PROG_PID_KEY"| grep -v grep|awk '{print $2}'`;
 
   # PORG log.conf Directory
   xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}');
