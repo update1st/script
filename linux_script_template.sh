@@ -206,7 +206,7 @@ start() {
     else
        $PROG_PATH/$PROG $PROG_ARGS_PREFIX $PROG_ARGS > $PROG_LOG 2>&1 &
        echo -e "$INFO Starting $PROG......";
-       PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
+       PID=`ps -ef | grep "$PROG_ARGS"| grep -v grep|awk '{print $2}'`;
        echo -e "$INFO $PID";
     fi
 }
