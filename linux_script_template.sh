@@ -226,7 +226,7 @@ stop() {
 status() {
     echo -e "\033[32m Check $PROG Run information\033[0m";
     if [ "$PID" != "" ]; then
-       echo -e "$ERRO $PROG is Running!";
+       echo -e "$INFO $PROG is Running!";
        echo -e "$rPID $PID";
        #exit 1
     else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
