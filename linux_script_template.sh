@@ -59,7 +59,7 @@ Program_info() {
   PROG_CONF_DIR=""; # $DIR
   PROG_LOG_DIR=""; # $DIR/log
 
-  # PORG log.conf Directory
+  # PORG log/conf Directory
   xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}');
   pDIR=$DIR/$PROG;
   if [ "$xDIR" = "" ]; then
