@@ -17,7 +17,6 @@
 # china-domain-list: https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt
 # 30000+ Chinese domain name records through aliyun dns server(223.5.5.5 223.6.6.6).
 # The default DNS is  universities dns server ( 115.159.157.26 115.159.158.38)
-# If you do not want to use it,You can change the default DNS you want.
 # public-dns: https://public-dns.info//
 #------------------------------------------------------------
 
