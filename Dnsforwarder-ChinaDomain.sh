@@ -145,8 +145,6 @@ Delete_log_conf_Dir(){
   done
 }
 
-
-
 # How to install the program and configure?
 Insall_Program(){
   install;
@@ -182,9 +180,6 @@ Status_Program(){
   status;
   echo "----------------------------------------"
 }
-
-
-
 
 
 install() {
@@ -238,9 +233,6 @@ status() {
        echo -e "$INFO Please install $PROG first! ";fi
     fi
 }
-
-
-
 
 
 # Check run as root.
