@@ -22,9 +22,10 @@
 # config file directory /etc/dnsforwarder/default.en.config
 #------------------------------------------------------------
 
-# User Info
-OSKEY="centos fedora debian ubuntu red-hat";
-PACKAGE="curl wget git make automake aria2 unzip gcc";
+
+# OS PACKAGE Info
+OSKEY="centos fedora debian ubuntu redhat";
+PACKAGE="curl wget git make automake autoconf unzip gcc privoxy proxychains-ng";
 RE_PACKAGE="";
 
 # System Info
@@ -33,63 +34,220 @@ DIR=$(cd "$(dirname "$0")"; pwd);
 IP=$(ip a | grep inet | sed -n '3p' |awk '{print $2}' |awk -F '/' '{print $1}');
 BIT=$(uname -m);
 
+INFO="[\033[32m INFO \033[0m]";
+ERRO="[\033[31m ERRO \033[0m]";
+rPID="[\033[31m PID: \033[0m]"; #red PID
+gPID="[\033[32m PID: \033[0m]"; #green PID
 
-PROG_CONF_DIR="/etc/dnsforwarder";
 
-# Program dnsforwarder.
-Info_dnsforwarder() {
+# dnsforwarder--------------------------------------
+p1(){
+  # BASE INFO
+  PROG="dnsforwarder";
+  PROG_PATH="/usr/local/bin";
+  PROG_ARGS_PREFIX="-f";
 
-    PROG="dnsforwarder";
-    PROG_PATH="/usr/local/bin";
-    PROG_ARGS_PREFIX="-f";
-    PROG_ARGS="$PROG_CONF_DIR/default.en.config";
-    PROG_PID_KEY="defunct";
-
-    # GET dnsforwarder Progarm PID
-    PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
-    #PROG_LOG="$PROG_LOG_DIR/$PROG-$DATE.log";
-    PROG_LOG="/dev/null";
+  Program_info;
+  p1_args;
 }
+p1_args(){
+  # PROG_DIR="$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
+  PROG_ARGS="$PROG_CONF_DIR/default.en.config";
+  PROG_PID_KEY="defunct";
 
-install_dnsforwarder() {
-    cd /tmp && git clone https://github.com/holmium/dnsforwarder.git;
-    cd dnsforwarder;
-    ./configure --enable-downloader=wget && make && make install;
-    dnsforwarder_conf;
-}
-
-dnsforwarder_conf(){
-    cd $PROG_CONF_DIR;
-    wget https://raw.githubusercontent.com/holmium/dnsforwarder/6/default.en.config;
-    wget https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt;
-    sed -i 's/114\.114\.114\.114/115\.159\.157\.26/g' default.en.config;
-    sed -ri 's/^UDPGroup 1\.2\.4\.8/115\.159\.158\.38/g' default.en.config;
-    sed -ri 's/^GroupFile/GroupFile \/etc\/dnsforwarder\/china-domain-update.txt/g' default.en.config;
+  # GET Progarm PID
+  PID=`ps -ef | grep "$PROG_PID_KEY"| grep -v grep|awk '{print $2}'`;
 
 }
+p1_install(){
 
-start_dnsforwarder() {
-    Info_dnsforwarder;
-    start;
+  #### ERRO alocal 1.x command not found,make sure autoconf && automake version.
+
+  # wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+  # tar -zxf autoconf-2.69.tar.gz && autoconf-2.69
+  # ./configure && make && make install; cd /tmp
+  #
+  # wget ftp://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
+  # tar -zxf  automake-1.15.tar.gz && cd automake-1.15
+  # ./configure && make && make install; cd /tmp
+  # export LDFLAGS=-lrt
+
+
+  cd /tmp && git clone https://github.com/holmium/dnsforwarder.git;
+  cd dnsforwarder;
+  ./configure --enable-downloader=wget && make && make install;
+  dnsforwarder_conf;
+  cd $PROG_CONF_DIR;
+  wget https://raw.githubusercontent.com/holmium/dnsforwarder/6/default.en.config;
+  wget https://raw.githubusercontent.com/update1st/gfw-whitelist/master/china-domain-update.txt;
+  sed -i 's/114\.114\.114\.114/115\.159\.157\.26/g' default.en.config;
+  sed -ri 's/^UDPGroup 1\.2\.4\.8/115\.159\.158\.38/g' default.en.config;
+  #sed -ri 's/^GroupFile/GroupFile \/etc\/dnsforwarder\/china-domain-update.txt/g' default.en.config;
+  sed  -rie "s#^LogOn false#LogOn true#g" default.en.config;
+  sed  -rie "s#^LogFileFolder#LogFileFolder $PROG_CONF_DIR\/log#g" default.en.config;
+  sed  -rie "s#^GroupFile#GroupFile $PROG_CONF_DIR\/china-domain-update.txt#g" default.en.config;
+
 }
-stop_dnsforwarder() {
-    Info_dnsforwarder;
-    stop;
+
+
+# --------------------------------------
+# Progarm Info
+Program_info() {
+  pDIR=""; #Progarm
+  PROG_CONF_DIR=""; # $DIR
+  PROG_LOG_DIR=""; # $DIR/log
+
+  # PORG log.conf Directory
+  xDIR=$(ls -ll $0 | grep $0 | awk -F '->' '{print $2}');
+  pDIR=$DIR/$PROG;
+  if [ "$xDIR" = "" ]; then
+      PROG_CONF_DIR=$pDIR;
+      #PROG_CONF_DIR=$pDIR/conf;
+      PROG_LOG_DIR=$pDIR/log;
+
+  else
+      PROG_CONF_DIR=${xDIR%/*}/$PROG;
+      #PROG_CONF_DIR=${xDIR%/*}/$PROG/conf;
+      PROG_LOG_DIR=${xDIR%/*}/$PROG/log;
+
+  fi
+
+  # OUTPUT log or /dev/null
+  #PROG_LOG="$PROG_LOG_DIR/$PROG-$DATE.log";
+  PROG_LOG="/dev/null";
+
+  # Create directory for Program(log/config)
+  PROG_DIR="$pDIR $PROG_CONF_DIR $PROG_LOG_DIR ";
 }
-status_dnsforwardery() {
-    Info_dnsforwarder;
-    status;
+
+
+# Create Progarm log/config directory
+Create_Log_Conf_Dir(){
+  for x in $PROG_DIR; do
+    if [ ! -d "$x" ]; then
+      echo -e "$INFO Create $x  directory";
+      mkdir -p $x && chmod -R 755 $x;
+    else
+      echo -e "$ERRO $xDIR already exists!";
+    fi
+  done
 }
-remove_dnsforwarder() {
-    Info_dnsforwarder
-    stop_dnsforwarder;
-    remove;
+
+# Delete Progarm log/config directory
+Delete_log_conf_Dir(){
+  for x in $PROG_DIR; do
+    if [ ! -d "$x" ]; then
+      echo "";
+      #exit 1;
+    else
+      rm -rf $x;
+    fi
+  done
+}
+
+
+
+# How to install the program and configure?
+Insall_Program(){
+  install;
+
+  # how to install program?
+  p1;
+  Create_Log_Conf_Dir;
+  p1_install;
+
+}
+
+Remove_Program(){
+  p1;
+  stop;
+  remove;
+  echo "----------------------------------------"
+  echo -e "$INFO RUNING END";
+}
+
+Start_Program(){
+  p1;
+  start;
+  echo "----------------------------------------"
+}
+
+Stop_Program(){
+  p1;
+  stop;
+  echo "----------------------------------------"
+}
+Status_Program(){
+  p1;
+  status;
+  echo "----------------------------------------"
 }
 
 
 
 
 
+install() {
+    CheckOS_Install_Package;
+}
+
+remove() {
+    CheckOS_Remove_Package
+    rm -rf $PROG_PATH/$PROG ;
+    if [ -f "$PROG_ARGS" ]; then
+        echo -e "[\033[31m INFO:\033[0m ] Del config file \033[31m $PROG_ARGS \033[0m ";
+        rm -rf $PROG_ARGS;
+    fi
+    Delete_log_conf_Dir;
+}
+
+start() {
+    echo -e "\033[32m Start $PROG\033[0m";
+    if [ "$PID" != "" ]; then
+       echo -e "$ERRO $PROG is Running!";
+       echo -e "$ERRO $PID";
+       #exit 1
+    else
+       $PROG_PATH/$PROG $PROG_ARGS_PREFIX $PROG_ARGS > $PROG_LOG 2>&1 &
+       echo -e "$INFO Starting $PROG......";
+       PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
+       echo -e "$INFO $PID";
+    fi
+}
+
+stop() {
+    echo -e "\033[32m Stop $PROG\033[0m";
+    echo -e "$INFO Check $PROG \033[31m PID \033[0m information......";
+    if [ "$PID" != "" ]; then
+       kill $PID;
+       echo -e "$INFO $PROG Stopped";
+    else
+       echo -e "$ERRO $PROG isn't Running!";
+       #exit 1
+    fi
+}
+
+status() {
+    echo -e "\033[32m Check the $PROG running status..\033[0m";
+    if [ "$PID" != "" ]; then
+       echo -e "$ERRO $PROG is Running!";
+       echo -e "$rPID $PID";
+       #exit 1
+    else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
+       echo -e "$INFO $PROG is stopped!"; else
+       echo -e "$INFO Please install $PROG first! ";fi
+    fi
+}
+
+
+
+
+
+# Check run as root.
+if [ "$(id -u)" != "0" ]; then
+    echo -e "$ERRO This script must be run as root!" 1>&2;
+    exit 1
+fi
 
 # CheckOS .
 CheckOS() {
@@ -113,7 +271,7 @@ CheckOS() {
     #echo -e "Install command: \033[31m $INSTALL_BIN \033[0m ";
     #echo -e "CPU: \033[31m $BIT \032[0m ";
 }
-# install package.
+# Install package.
 CheckOS_Install_Package() {
     CheckOS;
     # install softpackage.
@@ -137,118 +295,34 @@ CheckOS_Remove_Package() {
     fi
 }
 
-Create_dir() {
-    # Create Config directory.
-    if [ ! -d "$PROG_CONF_DIR" ]; then
-      echo -e "[\033[32m INFO \033[0m] Create $PROG_CONF_DIR  conf directory";
-      mkdir -p $PROG_CONF_DIR && chmod -R 755 $PROG_CONF_DIR;
-    else
-      echo -e "[\033[31m ERRO \033[0m] $PROG_CONF_DIR already exists!";
-    fi
-}
-
-
-
-
-
-
-
-
-install() {
-    CheckOS_Install_Package;
-    Create_dir;
-    install_dnsforwarder;
-}
-
-start() {
-    echo -e "\033[31m Start $PROG\033[0m";
-    if [ "$PID" != "" ]; then
-       echo -e "[\033[31m ERRO \033[0m] $PROG is Running!";
-       echo -e "[\033[31m PID:\033[0m ] $PID";
-       exit 1
-    else
-       $PROG_PATH/$PROG $PROG_ARGS_PREFIX $PROG_ARGS > $PROG_LOG 2>&1 &
-       echo -e "[\033[32m INFO \033[0m] Starting $PROG......";
-       PID=`ps -ef | grep $PROG_PID_KEY| grep -v grep|awk '{print $2}'`;
-       echo -e "[\033[31m PID:\033[0m ] $PID";
-    fi
-}
-
-stop() {
-    echo -e "\033[31m Stop $PROG\033[0m";
-    echo -e "[\033[32m INFO \033[0m] Check $PROG \033[31m PID \033[0m information......";
-    if [ "$PID" != "" ]; then
-       kill $PID;
-       echo -e "[\033[32m INFO\033[0m ] $PROG Stopped";
-    else
-       echo -e "[\033[31m ERRO\033[0m ] $PROG isn't Running!";
-       #exit 1
-    fi
-}
-
-status() {
-    echo -e "\033[32m Check the $PROG running status..\033[0m";
-    if [ "$PID" != "" ]; then
-       echo -e "[\033[31m ERRO \033[0m] $PROG is Running!";
-       echo -e "[\033[31m PID:\033[0m ] $PID";
-       #exit 1
-    else if [ "$(ls $PROG_PATH | grep $PROG)" = "$PROG" ]; then
-       echo -e "[\033[31m INFO \033[0m] $PROG is stopped!"; else
-       echo -e "[\033[31m INFO\033[0m ] Please install $PROG first! ";fi
-    fi
-}
-
-remove() {
-    #stop
-    echo -e "[\033[31m INFO:\033[0m ] Del bin file \033[31m $PROG_PATH/$PROG \033[0m ";
-    rm -rf $PROG_PATH/$PROG ;
-    Count=$(ls $PROG_LOG_DIR|wc -w );
-    if [ "$Count" = "0" ]; then  rm -rf $PROG_LOG_DIR; fi
-    if [ -f "$PROG_ARGS" ]; then
-        echo -e "[\033[31m INFO:\033[0m ] Del config file \033[31m $PROG_ARGS \033[0m ";
-        rm -rf $PROG_ARGS;
-    fi
-    Count1=$(ls $PROG_CONF_DIR|wc -w);
-    if [ "$Count1" = "0" ]; then  rm -rf $PROG_CONF_DIR; fi
-    echo -e "[\033[31m INFO:\033[0m ] END";
-}
-
-
-# Check run as root.
-if [ "$(id -u)" != "0" ]; then
-    echo -e "[\033[31m ERRO\033[0m ] This script must be run as root!" 1>&2;
-    exit 1
-fi
 
 case "$1" in
     start)
-    start_dnsforwarder
+        Start_Program
         exit 0
         ;;
     stop)
-    stop_dnsforwarder
+        Stop_Program
         exit 0
         ;;
     reload|restart|force-reload)
-        stop_dnsforwarder
-        start_dnsforwarder
-
+        Stop_Program
+        Start_Program
         exit 0
         ;;
     install)
-        install
+        Insall_Program
         exit 0
         ;;
     remove)
-        remove_dnsforwarder
+        Remove_Program
         exit 0
         ;;
     **)
-        echo -e "\033[32m  Usage: \033[0m $0 {\033[32m install|remove|start|stop|reload \033[0m}" 1>&2;
+        echo -e "\033[32m  Usage: \033[0m $0 {\033[32m install | remove | start | stop | reload \033[0m}" 1>&2;
         #PID=`ps -ef | grep $PROG| grep -v grep|awk '{print $2}'`
-        echo "----------------------------------------"
-        status_dnsforwardery
-        echo "----------------------------------------"
+
+        Status_Program
         exit 1
         ;;
 esac
